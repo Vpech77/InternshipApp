@@ -1,0 +1,182 @@
+
+html, body, #map { height: 620px; }
+body { 
+    display: grid; 
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 50px 620px;
+}
+
+#menu {
+    margin: 0; padding: 5px;
+    padding-bottom: 5px;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    border: 1px solid black;
+}
+
+#zoom {
+    margin: 0; padding: 5px;
+    grid-column: 2;
+    grid-row: 1;
+    border: 1px solid black;
+    display: flex;        /* 1 */
+    flex-direction: row;  /* 2 */
+    justify-content: start;
+}
+
+#infos {
+  margin-left: 20px;
+}
+
+#map {
+    grid-column: 2;
+    grid-row: 2;
+    border: 1px solid black;
+}
+
+#app{
+    padding-bottom: 10px;
+}
+
+
+
+.loading{
+  display: none;
+}
+
+.pacman{
+  margin:10px 10px;
+}
+
+.pacman-top{
+  background-color:gold;
+  height:25px;
+  width:50px;
+  border-radius:100px 100px 0 0;
+  animation: spin1 0.5s infinite linear;
+}
+
+.pacman-bottom{
+background-color:gold;
+  height:25px;
+  width:50px;
+  border-radius:0 0 100px 100px;
+  animation: spin2 0.5s infinite linear;
+}
+
+.feed {
+margin-top: -98px;
+margin-left:5px;
+width: 20px;
+height: 20px;
+border-radius: 30%;
+-moz-animation: eat 1s linear 0s infinite;
+-webkit-animation: eat 1s linear 0s infinite;
+animation: eat 1s linear 0s infinite;
+}   
+
+/* Animation*/
+
+@keyframes spin1 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(-35deg);}
+  
+}
+@keyframes spin2 {
+    0%  {transform: rotate(0deg);}
+  50%{transform: rotate(35deg);}	
+}
+
+@-moz-keyframes spin1 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(-35deg);}
+  
+}
+@-moz-keyframes spin2 {
+    0%  {transform: rotate(0deg);}
+  50%{transform: rotate(35deg);}	
+}
+
+@-webkit-keyframes spin1 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(-35deg);}
+  
+}
+@-webkit-keyframes spin2 {
+    0%  {transform: rotate(0deg);}
+  50%{transform: rotate(35deg);}	
+}
+
+@keyframes eat {
+    0% { box-shadow: 
+      100px 65px 0 0 black, 
+      300px 65px 0 0 black, 
+      500px 65px 0 0 black, 
+      700px 65px 0 0 black,
+      900px 65px 0 0 black, 
+      1100px 65px 0 0 black, 
+      1300px 65px 0 0 black;}
+  
+100% { box-shadow: 
+      0px 65px 0 0 black, 
+      100px 65px 0 0 black,
+      300px 65px 0 0 black, 
+      500px 65px 0 0 black, 
+      700px 65px 0 0 black, 
+      900px 65px 0 0 black, 
+      1100px 65px 0 0 black;}
+}
+
+
+@-moz-keyframes eat {
+    0% { box-shadow: 
+      100px 65px 0 0 black, 
+      300px 65px 0 0 black, 
+      500px 65px 0 0 black, 
+      700px 65px 0 0 black,
+      900px 65px 0 0 black, 
+      1100px 65px 0 0 black, 
+      1300px 65px 0 0 black;}
+  
+100% { box-shadow: 
+      0px 65px 0 0 black, 
+      100px 65px 0 0 black,
+      300px 65px 0 0 black, 
+      500px 65px 0 0 black, 
+      700px 65px 0 0 black, 
+      900px 65px 0 0 black, 
+      1100px 65px 0 0 black;}
+}
+
+@-webkit-keyframes eat {
+    0% { box-shadow: 
+      100px 65px 0 0 black, 
+      300px 65px 0 0 black, 
+      500px 65px 0 0 black, 
+      700px 65px 0 0 black,
+      900px 65px 0 0 black, 
+      1100px 65px 0 0 black, 
+      1300px 65px 0 0 black;}
+  
+100% { box-shadow: 
+      0px 65px 0 0 black, 
+      100px 65px 0 0 black,
+      300px 65px 0 0 black, 
+      500px 65px 0 0 black, 
+      700px 65px 0 0 black, 
+      900px 65px 0 0 black, 
+      1100px 65px 0 0 black;}
+}
+
+.loader {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l4 1s steps(4) infinite;
+}
+.loader:before {
+  content:"Loading..."
+}
+@keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
