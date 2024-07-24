@@ -72,7 +72,7 @@ let app = Vue.createApp({
         return response.json();
         })
         .then(function(data) {
-          addDataPoly("new", data['zoom3'], 'red');
+          addDataPoly("new", data['zoom2'], 'red');
           // addData("zoom4", data['zoom4'], 'gold');
           // addData("zoom5", data['zoom5'], 'green');
         });
