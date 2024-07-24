@@ -35,7 +35,7 @@ let app = Vue.createApp({
       layersIDs: [],
       layersOnMap:[],
       isDisabled:false,
-      categorySelected: ["known_mapdata", "user_mapdata", "presumptive_mapdata"],
+      categorySelected: ["known_mapdata", "new"],
     };
   },
   
@@ -45,10 +45,19 @@ let app = Vue.createApp({
     return response.json();
     })
     .then(function(data) {
-      addData("presumptive_mapdata", data['c'], 'dodgerblue');
+      // addData("presumptive_mapdata", data['c'], 'dodgerblue');
       addData("known_mapdata", data['b'], 'red');
-      addData("user_mapdata", data['a'], 'purple');
+      // addData("user_mapdata", data['a'], 'purple');
+      fetch("/newData")
+      .then(function(response) {
+      return response.json();
+      })
+      .then(function(data) {
+        addDataPoly("new", data['zoom2'], 'red');
+      });
     });
+
+
 
   },
 
@@ -127,7 +136,7 @@ function addDataPoly(name, jsonData, color){
     source: name,
     paint: {
       'fill-color': color,
-      'fill-opacity': 1,
+      'fill-opacity': 0.8,
       // "fill-outline-color": "black"
     }
   });
