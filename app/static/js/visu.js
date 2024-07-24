@@ -13,9 +13,7 @@ function onMapZoom(e) {
   let zl = Math.floor(map.getZoom());
   console.log(app.layersIDs)
   app.zl = 'ZoomLevel : '+ zl;
-  // if (app.isDisabled){
-  //   showZoomLayer();
-  // }
+
 }
 
 function showZoomLayer(){
@@ -34,7 +32,6 @@ let app = Vue.createApp({
     return {
       puntos: null,
       zl:'ZoomLevel : 3',
-      txt:'Hellooo',
       layersIDs: [],
       layersOnMap:[],
       isDisabled:false,
@@ -135,12 +132,6 @@ function addDataPoly(name, jsonData, color){
     }
   });
   app.layersIDs.push(name);
-};
-
-function addAll(data, name){
-  addData(name + "presumptive_mapdata", data['presumptive_mapdata'], 'dodgerblue');
-  addData(name + "known_mapdata", data['known_mapdata'], 'red');
-  addData(name + "user_mapdata", data['user_mapdata'], 'purple');
 };
 
 function hideLayers(){

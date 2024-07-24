@@ -7,6 +7,7 @@ const map = new maplibregl.Map({
     minZoom:2
 });
 
+map.addControl(new maplibregl.NavigationControl());
 let monElement = document.getElementById('lvl');
 const spin = document.querySelector('.loading')
 
@@ -14,7 +15,13 @@ map.on('zoom', onMapClick);
 
 function onMapClick(e) {
     monElement.innerHTML = Math.floor(map.getZoom());
-    console.log(app.layersIDs)
+    
+    const bounds = map.getBounds()
+    const topRight = bounds.getNorthEast();
+    const bottomLeft = bounds.getSouthWest();
+
+    console.log(topRight, bottomLeft);
+
 };
 
 let app = Vue.createApp({
@@ -34,7 +41,8 @@ let app = Vue.createApp({
                   'Swing':{'arm':8}, 
                   'Quadtree':{'type':'aggregation', 'depth':2},
                   'Delaunay':{'minlength':2},
-                  'K-means':{'shrink_ratio':0.25}
+                  'K-means':{'shrink_ratio':0.25},
+                  'Initial Point':""
                   },
     };
   },

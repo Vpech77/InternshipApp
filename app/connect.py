@@ -84,8 +84,11 @@ def apply_algo(country, category, algoParams, algoName="LabelGrid"):
         grid, result = point_label_grid(gdf, width, width, "hexagonal", mode)
     
     if algoName == "K-means":
-        # shrink_ratio = float(algoParams.get('shrink_ratio', 0.25))
-        # result = point_kmeans(gdf, shrink_ratio)
+        shrink_ratio = float(algoParams.get('shrink_ratio', 0.25))
+        result = point_kmeans(gdf, shrink_ratio)
+        pass
+    
+    if algoName == "Initial Point":
         pass
     
     if algoName == "Quadtree":

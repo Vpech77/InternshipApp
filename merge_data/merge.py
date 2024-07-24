@@ -19,14 +19,11 @@ def merge_files(folder):
         lst_gdf.append(gdf)
     
     merge = pd.concat(lst_gdf)
-    merge.to_file("./zoomNew.geojson")
+    merge.to_file("./zoom2.geojson")
     return merge
 
 if __name__ == "__main__":
-    # espagne = gpd.read_file('./data/espagne.geojson')
-    # portugal = gpd.read_file('./data/portugal.geojson')
-    # merge = pd.concat([espagne, portugal])
-    
+
     input_folder = './data'
     res = merge_files(input_folder)
     res.plot()
