@@ -31,7 +31,7 @@ def select_countryName():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
         
-def select_puntos(name='France', category='presumptive_mapdata'):
+def select_puntos(name='France', category='known_mapdata'):
     config  = load_config()
     try:
         with psycopg2.connect(**config) as conn:
@@ -39,6 +39,21 @@ def select_puntos(name='France', category='presumptive_mapdata'):
                 cur.execute(f"SELECT ST_AsGeoJson(villes.geom) as geometry, CAST((villes.pfas_sum) AS FLOAT)\
                             FROM {category} as villes JOIN world as pays ON ST_Within(villes.geom, pays.geom) \
                             WHERE pays.name ilike '{name}'")
+                res = cur.fetchall()
+                return res
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        
+def select_puntos_region(name='France', category='known_mapdata'):
+    config  = load_config()
+    try:
+        with psycopg2.connect(**config) as conn:
+            with conn.cursor() as cur:
+                cur.execute(f"SELECT ST_AsGeoJson(villes.geom) as geometry, CAST((villes.pfas_sum) AS FLOAT)\
+                            FROM known_mapdata as villes,(SELECT region.geom FROM region, world \
+                            WHERE ST_Intersects(region.geom, ST_MakeEnvelope(-0.47766304902998513, 44.8402913966969, 3.899131431403049, 47.97363600091214, 4326))\
+                            AND (ST_Within(region.geom, world.geom) and world.name ilike 'France'))\
+                            AS temp WHERE ST_Within(villes.geom, temp.geom)")
                 res = cur.fetchall()
                 return res
     except (Exception, psycopg2.DatabaseError) as error:
@@ -57,7 +72,7 @@ def gdf_to_json(gdf):
 
 def select_all_puntos(name='France'):
     category = ["known_mapdata", "presumptive_mapdata", "user_mapdata"]
-    return {k:gdf_to_json(sql_to_gdf(select_puntos(name, k))) for k in category}
+    return {k:gdf_to_json(sql_to_gdf(select_puntos_region(name, k))) for k in category}
 
 def get_crs(country):
     crs = 4326
