@@ -44,16 +44,33 @@ def select_puntos(name='France', category='known_mapdata'):
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
         
-def select_puntos_region(name='France', category='known_mapdata'):
+def select_puntos_region2(dicoBounds, name, category):
     config  = load_config()
+    topRight = dicoBounds['topRight']
+    bottomLeft = dicoBounds['bottomLeft']
     try:
         with psycopg2.connect(**config) as conn:
             with conn.cursor() as cur:
-                cur.execute(f"SELECT ST_AsGeoJson(villes.geom) as geometry, CAST((villes.pfas_sum) AS FLOAT)\
-                            FROM {category} as villes,(SELECT region.geom FROM region, world \
-                            WHERE ST_Intersects(region.geom, ST_MakeEnvelope(-0.47766304902998513, 44.8402913966969, 3.899131431403049, 47.97363600091214, 4326))\
-                            AND (ST_Within(region.geom, world.geom) and world.name ilike '{name}'))\
-                            AS temp WHERE ST_Within(villes.geom, temp.geom)")
+                cur.execute(f"SELECT ST_AsGeoJson(points.geom) as geometry, CAST((points.pfas_sum) AS FLOAT)\
+                            FROM {category} as points,(SELECT region.geom FROM region, world as pays\
+                            WHERE ST_Intersects(region.geom, ST_MakeEnvelope({bottomLeft['lng']}, {bottomLeft['lat']}, {topRight['lng']}, {topRight['lat']}, 4326))\
+                            AND (ST_Contains(pays.geom, region.geom) AND pays.name ilike '{name}'))\
+                            AS temp WHERE ST_Contains(temp.geom, points.geom)")
+                res = cur.fetchall()
+                return res
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        
+def select_puntos_region(dicoBounds, name, category):
+    config  = load_config()
+    topRight = dicoBounds['topRight']
+    bottomLeft = dicoBounds['bottomLeft']
+    try:
+        with psycopg2.connect(**config) as conn:
+            with conn.cursor() as cur:
+                cur.execute(f"SELECT ST_AsGeoJson(points.geom) as geometry, CAST((points.pfas_sum) AS FLOAT)\
+                            FROM {category} as points, world as pays WHERE ST_Intersects(points.geom, ST_MakeEnvelope({bottomLeft['lng']}, {bottomLeft['lat']}, {topRight['lng']}, {topRight['lat']}, 4326))\
+                            AND ST_Contains(pays.geom, points.geom) AND pays.name ilike '{name}'")
                 res = cur.fetchall()
                 return res
     except (Exception, psycopg2.DatabaseError) as error:
@@ -73,6 +90,10 @@ def gdf_to_json(gdf):
 def select_all_puntos(name='France'):
     category = ["known_mapdata", "presumptive_mapdata", "user_mapdata"]
     return {k:gdf_to_json(sql_to_gdf(select_puntos(name, k))) for k in category}
+
+def select_all_puntos_regions(dicoBounds, name='France'):
+    category = ["known_mapdata", "presumptive_mapdata", "user_mapdata"]
+    return {k:gdf_to_json(sql_to_gdf(select_puntos_region(dicoBounds, name, k))) for k in category}
 
 def get_crs(country):
     crs = 4326

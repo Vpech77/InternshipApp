@@ -44,7 +44,7 @@
                     </div>
                 </div>
                     <div class="d-grid gap-2 m-2">
-                        <button type="button" class="btn btn-success btn-sm" @click="puntosRegions">Selection by regions</button>     
+                        <button v-if="countryName" type="button" class="btn btn-success btn-sm" @click="puntosRegions">Selection by mapBounds</button>     
                     </div>
                     <div class="d-grid gap-2 m-2">
                         <button type="button" class="btn btn-secondary btn-sm" @click="showAllPuntos">Show all puntos</button>          

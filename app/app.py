@@ -48,11 +48,9 @@ def pays():
 def regions():
     donnees = request.form
     strBounds = donnees.get('bounds')
-    
+    pays = donnees.get('pays')
     dico = {key: val for key, val in json.loads(strBounds).items()}
-
-    print("here", dico)
-    return select_all_puntos("France")
+    return select_all_puntos_regions(dico, pays)
 
 
 @app.route("/algo", methods=["POST"])

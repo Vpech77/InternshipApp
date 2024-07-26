@@ -11,16 +11,21 @@ map.addControl(new maplibregl.NavigationControl());
 let monElement = document.getElementById('lvl');
 const spin = document.querySelector('.loading')
 
-map.on('zoom', onMapClick);
+map.on('zoom', onMapZoom);
+
+map.on('click', onMapClick);
 
 function onMapClick(e) {
-    monElement.innerHTML = Math.floor(map.getZoom());
-    
-    const bounds = map.getBounds()
-    const topRight = bounds.getNorthEast();
-    const bottomLeft = bounds.getSouthWest();
+  const bounds = map.getBounds()
+  const topRight = bounds.getNorthEast();
+  const bottomLeft = bounds.getSouthWest();
 
-    console.log(topRight, bottomLeft);
+  console.log("MAP BOUNDS : ", topRight, bottomLeft);
+  console.log(e.lngLat)
+}
+
+function onMapZoom(e) {
+    monElement.innerHTML = Math.floor(map.getZoom());
 
 };
 
@@ -122,8 +127,10 @@ let app = Vue.createApp({
 
       const bounds = map.getBounds()
       let dico = {'topRight':bounds.getNorthEast(), 'bottomLeft':bounds.getSouthWest()}
+      console.log(dico)
       let donnees = new FormData();
       donnees.append('bounds', JSON.stringify(dico));
+      donnees.append('pays', this.countryName);
 
       fetch('/regions', {
           method: 'post',
