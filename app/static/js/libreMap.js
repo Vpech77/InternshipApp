@@ -16,12 +16,13 @@ map.on('zoom', onMapZoom);
 map.on('click', onMapClick);
 
 function onMapClick(e) {
-  const bounds = map.getBounds()
-  const topRight = bounds.getNorthEast();
-  const bottomLeft = bounds.getSouthWest();
+  // const bounds = map.getBounds()
+  // const topRight = bounds.getNorthEast();
+  // const bottomLeft = bounds.getSouthWest();
 
-  console.log("MAP BOUNDS : ", topRight, bottomLeft);
-  console.log(e.lngLat)
+  // console.log("MAP BOUNDS : ", topRight, bottomLeft);
+  // console.log(e.lngLat)
+  console.log(app.dicoBounds);
 }
 
 function onMapZoom(e) {
@@ -39,9 +40,9 @@ let app = Vue.createApp({
       categorySelected: [],
       algoSelected:'',
       layersOnMap: [],
-      countryValid:false,
-      selection: false,
-      isDisabled: false,
+      dicoBounds: null,
+      selection: false, // v-for apply algo
+      isDisabled: false, // disable display of category layer
       paramAlgos:{'LabelGrid':{'width':0.2, 'mode':'aggregation'},
                   'Swing':{'arm':8}, 
                   'Quadtree':{'type':'aggregation', 'depth':2},
@@ -67,10 +68,12 @@ let app = Vue.createApp({
 
     process(){
       spin.style.display = "block";
+
       if (this.algoSelected.length != 0){
         let donnees = new FormData();
         donnees.append('country', this.countryName);
         donnees.append('category', this.categorySelected);
+        donnees.append('bounds', JSON.stringify(this.dicoBounds));
         donnees.append('algoSelected', this.algoSelected);
         donnees.append('algoParams', JSON.stringify(this.paramAlgos[this.algoSelected]))
 
@@ -126,11 +129,10 @@ let app = Vue.createApp({
       this.algoSelected='';
 
       const bounds = map.getBounds()
-      let dico = {'topRight':bounds.getNorthEast(), 'bottomLeft':bounds.getSouthWest()}
-      console.log(dico)
+      this.dicoBounds = {'topRight':bounds.getNorthEast(), 'bottomLeft':bounds.getSouthWest()};
       let donnees = new FormData();
-      donnees.append('bounds', JSON.stringify(dico));
-      donnees.append('pays', this.countryName);
+      donnees.append('bounds', JSON.stringify(this.dicoBounds));
+      donnees.append('country', this.countryName);
 
       fetch('/regions', {
           method: 'post',
@@ -148,6 +150,7 @@ let app = Vue.createApp({
 
     autocomplete() {
       this.algoSelected='';
+      this.dicoBounds=null;
       let donnees = new FormData();
       donnees.append('recherche', this.countryName);
 

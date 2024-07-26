@@ -48,10 +48,9 @@ def pays():
 def regions():
     donnees = request.form
     strBounds = donnees.get('bounds')
-    pays = donnees.get('pays')
+    countryName = donnees.get('country')
     dico = {key: val for key, val in json.loads(strBounds).items()}
-    return select_all_puntos_regions(dico, pays)
-
+    return select_all_puntos_regions(dico, countryName)
 
 @app.route("/algo", methods=["POST"])
 def algo():
@@ -60,7 +59,15 @@ def algo():
     category = donnees.get('category')
     algoSelected = donnees.get('algoSelected')
     algoParams = donnees.get('algoParams')
-    res = apply_algo(countryName, category, json.loads(algoParams), algoSelected)
+    strBounds = donnees.get('bounds')
+    print("----------------------------------",strBounds)
+    if strBounds == 'null':
+        print("here")
+        dico = False
+    else:
+        print("rrrrrrrrrrrrrrrrrrrrrr")
+        dico = {key: val for key, val in json.loads(strBounds).items()}
+    res = apply_algo(countryName, dico, category, json.loads(algoParams), algoSelected)
     return res
 
 @app.route("/algoGrid", methods=["POST"])

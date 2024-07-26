@@ -44,22 +44,22 @@ def select_puntos(name='France', category='known_mapdata'):
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
         
-def select_puntos_region2(dicoBounds, name, category):
-    config  = load_config()
-    topRight = dicoBounds['topRight']
-    bottomLeft = dicoBounds['bottomLeft']
-    try:
-        with psycopg2.connect(**config) as conn:
-            with conn.cursor() as cur:
-                cur.execute(f"SELECT ST_AsGeoJson(points.geom) as geometry, CAST((points.pfas_sum) AS FLOAT)\
-                            FROM {category} as points,(SELECT region.geom FROM region, world as pays\
-                            WHERE ST_Intersects(region.geom, ST_MakeEnvelope({bottomLeft['lng']}, {bottomLeft['lat']}, {topRight['lng']}, {topRight['lat']}, 4326))\
-                            AND (ST_Contains(pays.geom, region.geom) AND pays.name ilike '{name}'))\
-                            AS temp WHERE ST_Contains(temp.geom, points.geom)")
-                res = cur.fetchall()
-                return res
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+# def select_puntos_region2(dicoBounds, name, category):
+#     config  = load_config()
+#     topRight = dicoBounds['topRight']
+#     bottomLeft = dicoBounds['bottomLeft']
+#     try:
+#         with psycopg2.connect(**config) as conn:
+#             with conn.cursor() as cur:
+#                 cur.execute(f"SELECT ST_AsGeoJson(points.geom) as geometry, CAST((points.pfas_sum) AS FLOAT)\
+#                             FROM {category} as points,(SELECT region.geom FROM region, world as pays\
+#                             WHERE ST_Intersects(region.geom, ST_MakeEnvelope({bottomLeft['lng']}, {bottomLeft['lat']}, {topRight['lng']}, {topRight['lat']}, 4326))\
+#                             AND (ST_Contains(pays.geom, region.geom) AND pays.name ilike '{name}'))\
+#                             AS temp WHERE ST_Contains(temp.geom, points.geom)")
+#                 res = cur.fetchall()
+#                 return res
+#     except (Exception, psycopg2.DatabaseError) as error:
+#         print(error)
         
 def select_puntos_region(dicoBounds, name, category):
     config  = load_config()
@@ -109,8 +109,11 @@ def get_crs(country):
         crs = 2158
     return crs
 
-def apply_algo(country, category, algoParams, algoName="LabelGrid"):
-    puntos = select_puntos(country, category)
+def apply_algo(country, dicoBounds, category, algoParams, algoName="LabelGrid"):
+    if dicoBounds:
+        puntos = select_puntos_region(dicoBounds, country, category)
+    else:
+        puntos = select_puntos(country, category)
     gdf = sql_to_gdf(puntos)
     result = gdf
 
