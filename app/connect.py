@@ -6,7 +6,7 @@ import json
 from shapely.geometry import Point
 from configparser import ConfigParser
 
-def load_config(filename='database.ini', section='postgresql'):
+def load_config(filename='./database.ini', section='postgresql'):
     parser = ConfigParser()
     parser.read(filename)
 
@@ -50,9 +50,9 @@ def select_puntos_region(name='France', category='known_mapdata'):
         with psycopg2.connect(**config) as conn:
             with conn.cursor() as cur:
                 cur.execute(f"SELECT ST_AsGeoJson(villes.geom) as geometry, CAST((villes.pfas_sum) AS FLOAT)\
-                            FROM known_mapdata as villes,(SELECT region.geom FROM region, world \
+                            FROM {category} as villes,(SELECT region.geom FROM region, world \
                             WHERE ST_Intersects(region.geom, ST_MakeEnvelope(-0.47766304902998513, 44.8402913966969, 3.899131431403049, 47.97363600091214, 4326))\
-                            AND (ST_Within(region.geom, world.geom) and world.name ilike 'France'))\
+                            AND (ST_Within(region.geom, world.geom) and world.name ilike '{name}'))\
                             AS temp WHERE ST_Within(villes.geom, temp.geom)")
                 res = cur.fetchall()
                 return res
@@ -72,7 +72,7 @@ def gdf_to_json(gdf):
 
 def select_all_puntos(name='France'):
     category = ["known_mapdata", "presumptive_mapdata", "user_mapdata"]
-    return {k:gdf_to_json(sql_to_gdf(select_puntos_region(name, k))) for k in category}
+    return {k:gdf_to_json(sql_to_gdf(select_puntos(name, k))) for k in category}
 
 def get_crs(country):
     crs = 4326
@@ -130,3 +130,7 @@ def apply_algo(country, category, algoParams, algoName="LabelGrid"):
 
     # return gdf_to_json(result), gdf_to_json(grid)
     return gdf_to_json(result)
+
+if __name__ == "__main__":
+    config = load_config()
+    print(config)

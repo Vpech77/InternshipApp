@@ -117,6 +117,28 @@ let app = Vue.createApp({
       this.countryName = "";
     },
 
+    puntosRegions(){
+      this.algoSelected='';
+
+      const bounds = map.getBounds()
+      let dico = {'topRight':bounds.getNorthEast(), 'bottomLeft':bounds.getSouthWest()}
+      let donnees = new FormData();
+      donnees.append('bounds', JSON.stringify(dico));
+
+      fetch('/regions', {
+          method: 'post',
+          body: donnees,
+      })
+      .then(reponseHTTP => reponseHTTP.json())
+      .then(resultat => {
+          this.puntos = resultat;
+          clearLayers();
+          addAll(resultat, this.countryName);
+          this.clearData();
+
+      })
+    },
+
     autocomplete() {
       this.algoSelected='';
       let donnees = new FormData();

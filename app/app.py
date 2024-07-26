@@ -42,8 +42,18 @@ def load_new():
 def pays():
     donnees = request.form
     recherche = donnees.get('recherche')
-    print("-------RECHERCHE--------", recherche)
     return select_all_puntos(recherche)
+
+@app.route("/regions", methods=["POST"])
+def regions():
+    donnees = request.form
+    strBounds = donnees.get('bounds')
+    
+    dico = {key: val for key, val in json.loads(strBounds).items()}
+
+    print("here", dico)
+    return select_all_puntos("France")
+
 
 @app.route("/algo", methods=["POST"])
 def algo():
@@ -65,11 +75,6 @@ def algoGrid():
     res = apply_algo(countryName, category, json.loads(algoParams), algoSelected)
     dico = {"new": res[0], "grid":res[1]}
     return dico
-
-@app.route("/bdd")
-def all():
-    name = 'France'
-    return select_all_puntos(name)
 
 @app.route("/lstNames")
 def test():
