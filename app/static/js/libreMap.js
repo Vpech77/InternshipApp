@@ -26,7 +26,7 @@ function onMapClick(e) {
 }
 
 function onMapZoom(e) {
-    monElement.innerHTML = Math.floor(map.getZoom());
+    monElement.innerHTML = Math.floor(map.getZoom()*100)/100;
 
 };
 
@@ -83,7 +83,7 @@ let app = Vue.createApp({
         })
         .then(reponseHTTP => reponseHTTP.json())
         .then(resultat => {
-            this.puntos = resultat;
+            this.puntos = resultat['new'];
             hideLayers();
 
             if (typeof map.getLayer('new') !== 'undefined') {
@@ -187,7 +187,7 @@ let app = Vue.createApp({
     showCategoryLayers(){
       hideLayers();
       let layerName = this.countryName+this.categorySelected[0];
-      console.log(layerName);
+
       if (typeof map.getLayer(layerName) !== 'undefined') {
         this.categorySelected.map(layer => {
           map.setLayoutProperty(this.countryName+layer, 'visibility', 'visible');
