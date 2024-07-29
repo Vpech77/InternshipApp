@@ -77,7 +77,7 @@ let app = Vue.createApp({
         donnees.append('algoSelected', this.algoSelected);
         donnees.append('algoParams', JSON.stringify(this.paramAlgos[this.algoSelected]))
 
-        fetch('/algo', {
+        fetch('/algoGrid', {
             method: 'post',
             body: donnees,
         })
@@ -89,8 +89,11 @@ let app = Vue.createApp({
             if (typeof map.getLayer('new') !== 'undefined') {
               map.removeLayer('new').removeSource('new');
               this.layersIDs = this.layersIDs.filter(e => e !== 'new');
+              map.removeLayer('grid').removeSource('grid');
+              this.layersIDs = this.layersIDs.filter(e => e !== 'grid');
             };
-            addData("new", resultat, 'gold');
+            addData("new", resultat['new'], 'gold');
+            addDataPoly("grid", resultat['grid'], 'green');
             this.isDisabled = true;
             spin.style.display = "none";
 
@@ -176,7 +179,7 @@ let app = Vue.createApp({
         };
         if (layer == "new"){
           map.setLayoutProperty("new", 'visibility', 'visible');
-
+          map.setLayoutProperty("grid", 'visibility', 'visible');
         };
       });
     },
@@ -241,6 +244,25 @@ function addData(name, jsonData, color){
   }
   app.layersIDs.push(name);
 }
+
+function addDataPoly(name, jsonData, color){
+  map.addSource(name, {
+    type: 'geojson',
+    data: jsonData
+  });
+  map.addLayer({
+    id: name,
+    type: "fill",
+    source: name,
+    paint: {
+      'fill-color': color,
+      'fill-opacity': 0.2,
+      "fill-outline-color": "black"
+    }
+  });
+  app.layersIDs.push(name);
+};
+
 
 function addAll(data, name){
   addData(name + "presumptive_mapdata", data['presumptive_mapdata'], 'dodgerblue');

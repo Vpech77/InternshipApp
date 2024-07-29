@@ -16,10 +16,6 @@ def load_geojson(filename):
 def map():
     return render_template("libreMap.html")
 
-@app.route("/grid")
-def grid():
-    return render_template("grid.html")
-
 @app.route("/visu")
 def visu():
     return render_template("visu.html")
@@ -60,12 +56,9 @@ def algo():
     algoSelected = donnees.get('algoSelected')
     algoParams = donnees.get('algoParams')
     strBounds = donnees.get('bounds')
-    print("----------------------------------",strBounds)
     if strBounds == 'null':
-        print("here")
         dico = False
     else:
-        print("rrrrrrrrrrrrrrrrrrrrrr")
         dico = {key: val for key, val in json.loads(strBounds).items()}
     res = apply_algo(countryName, dico, category, json.loads(algoParams), algoSelected)
     return res
@@ -77,7 +70,12 @@ def algoGrid():
     category = donnees.get('category')
     algoSelected = donnees.get('algoSelected')
     algoParams = donnees.get('algoParams')
-    res = apply_algo(countryName, category, json.loads(algoParams), algoSelected)
+    strBounds = donnees.get('bounds')
+    if strBounds == 'null':
+        dico = False
+    else:
+        dico = {key: val for key, val in json.loads(strBounds).items()}
+    res = apply_algo_grid(countryName, dico, category, json.loads(algoParams), algoSelected)
     dico = {"new": res[0], "grid":res[1]}
     return dico
 
