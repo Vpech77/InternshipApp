@@ -3,7 +3,7 @@ const map = new maplibregl.Map({
     style:
         'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
     center: [13, 50],
-    zoom: 2,
+    zoom: 4,
     minZoom:2
 });
 

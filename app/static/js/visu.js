@@ -12,7 +12,7 @@ map.on('zoom', onMapZoom);
 
 function onMapZoom(e) {
   let zl = Math.floor(map.getZoom());
-  console.log(app.layersIDs)
+  console.log(map.getZoom())
   app.zl = 'ZoomLevel : '+ zl;
 
 }
@@ -32,7 +32,7 @@ let app = Vue.createApp({
   data() {
     return {
       puntos: null,
-      zl:'ZoomLevel : 3',
+      zl:'ZoomLevel : 2',
       layersIDs: [],
       layersOnMap:[],
       isDisabled:false,
@@ -119,7 +119,7 @@ function addData(name, jsonData, color){
     paint: {
       "circle-color": color,
       "circle-radius": ['coalesce',['get', 'radius'], 2],
-      "circle-stroke-width": 0.5,
+      "circle-stroke-width": 1,
       "circle-stroke-color": "black",
     }
   });
