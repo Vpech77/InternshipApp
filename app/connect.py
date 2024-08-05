@@ -44,23 +44,6 @@ def select_puntos(name='France', category='known_mapdata'):
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
         
-# def select_puntos_region2(dicoBounds, name, category):
-#     config  = load_config()
-#     topRight = dicoBounds['topRight']
-#     bottomLeft = dicoBounds['bottomLeft']
-#     try:
-#         with psycopg2.connect(**config) as conn:
-#             with conn.cursor() as cur:
-#                 cur.execute(f"SELECT ST_AsGeoJson(points.geom) as geometry, CAST((points.pfas_sum) AS FLOAT)\
-#                             FROM {category} as points,(SELECT region.geom FROM region, world as pays\
-#                             WHERE ST_Intersects(region.geom, ST_MakeEnvelope({bottomLeft['lng']}, {bottomLeft['lat']}, {topRight['lng']}, {topRight['lat']}, 4326))\
-#                             AND (ST_Contains(pays.geom, region.geom) AND pays.name ilike '{name}'))\
-#                             AS temp WHERE ST_Contains(temp.geom, points.geom)")
-#                 res = cur.fetchall()
-#                 return res
-#     except (Exception, psycopg2.DatabaseError) as error:
-#         print(error)
-        
 def select_puntos_region(dicoBounds, name, category):
     config  = load_config()
     topRight = dicoBounds['topRight']
@@ -180,13 +163,13 @@ def apply_algo_grid(country, dicoBounds, category, algoParams, algoName="LabelGr
         crs = get_crs(country)
 
         if typ == 'selection' and category == "known_mapdata":
-            result = point_quadtree_selection(gdf, crs, depth)
+            result, grid = point_quadtree_selection(gdf, crs, depth)
         
         if typ == 'simplification':
-            result = point_quadtree_simplification(gdf, crs, depth)
+            result, grid = point_quadtree_simplification(gdf, crs, depth)
             
         if typ == 'aggregation':
-            result = point_quadtree_aggregation(gdf, crs, depth)
+            result, grid = point_quadtree_aggregation(gdf, crs, depth)
             
     if algoName == "Delaunay":
         minlength = float(algoParams.get('minlength', 2.0))

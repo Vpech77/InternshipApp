@@ -47,27 +47,36 @@ def point_kmeans(gdf, shrink_ratio=0.1):
     
 ################################### QUADTREE SELECTION ################################
 
-def point_quadtree_selection(gdf, epsg, depth=2):
-    output, qtree = c4.quadtree_point_set_reduction(gdf.to_crs(epsg), depth, 'selection', attribute='value')
+def point_quadtree_selection(gdf, epsg, depth):
+    output, qtree = reduce_points_quadtree(gdf.to_crs(epsg), depth, 'selection', attribute='value')
     p = [pt[0] for pt in output]
-    return gpd.GeoDataFrame(geometry=gpd.GeoSeries(p), crs=epsg).to_crs(4326)
+    grid = []
+    qtree.setGrid(grid, depth)
+    gdf_grid = gpd.GeoDataFrame(geometry=gpd.GeoSeries(grid), crs=epsg).to_crs(4326)
+    return gpd.GeoDataFrame(geometry=gpd.GeoSeries(p), crs=epsg).to_crs(4326), gdf_grid
 
 ################################### QUADTREE SIMPLIFICATION ################################
 
-def point_quadtree_simplification(gdf, epsg, depth=2):
-    output, qtree = c4.quadtree_point_set_reduction(gdf.to_crs(epsg), depth, 'simplification')
+def point_quadtree_simplification(gdf, epsg, depth):
+    output, qtree = reduce_points_quadtree(gdf.to_crs(epsg), depth, 'simplification')
     p = [pt[0] for pt in output]
-    return gpd.GeoDataFrame(geometry=gpd.GeoSeries(p), crs=epsg).to_crs(4326)
+    grid = []
+    qtree.setGrid(grid, depth)
+    gdf_grid = gpd.GeoDataFrame(geometry=gpd.GeoSeries(grid), crs=epsg).to_crs(4326)
+    return gpd.GeoDataFrame(geometry=gpd.GeoSeries(p), crs=epsg).to_crs(4326), gdf_grid
 
 ################################### QUADTREE AGGREGATION ################################
 
-def point_quadtree_aggregation(gdf, epsg, depth=2):
-    output, qtree = c4.quadtree_point_set_reduction(gdf.to_crs(epsg), depth, 'aggregation')
+def point_quadtree_aggregation(gdf, epsg, depth):
+    output, qtree = reduce_points_quadtree(gdf.to_crs(epsg), depth, 'aggregation')
     p = [pt[0] for pt in output]
     radius = [pt[2] for pt in output]
     pix = [(40*rad)/max(radius) for rad in radius]
     df = pd.DataFrame(pix, columns=['radius'])
-    return gpd.GeoDataFrame(df['radius'], geometry=gpd.GeoSeries(p), crs=epsg).to_crs(4326)
+    grid = []
+    qtree.setGrid(grid, depth)
+    gdf_grid = gpd.GeoDataFrame(geometry=gpd.GeoSeries(grid), crs=epsg).to_crs(4326)
+    return gpd.GeoDataFrame(df['radius'], geometry=gpd.GeoSeries(p), crs=epsg).to_crs(4326), gdf_grid
 
 ################################### DELAUNAY ################################
 
