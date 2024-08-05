@@ -48,21 +48,6 @@ def regions():
     dico = {key: val for key, val in json.loads(strBounds).items()}
     return select_all_puntos_regions(dico, countryName)
 
-@app.route("/algo", methods=["POST"])
-def algo():
-    donnees = request.form
-    countryName = donnees.get('country')
-    category = donnees.get('category')
-    algoSelected = donnees.get('algoSelected')
-    algoParams = donnees.get('algoParams')
-    strBounds = donnees.get('bounds')
-    if strBounds == 'null':
-        dico = False
-    else:
-        dico = {key: val for key, val in json.loads(strBounds).items()}
-    res = apply_algo(countryName, dico, category, json.loads(algoParams), algoSelected)
-    return res
-
 @app.route("/algoGrid", methods=["POST"])
 def algoGrid():
     donnees = request.form
