@@ -14,12 +14,14 @@ function onMapZoom(e) {
   let zl = Math.floor(map.getZoom());
   console.log(map.getZoom())
   app.zl = 'ZoomLevel : '+ zl;
-
+  showZoomLayer()
 }
+
+
 
 function showZoomLayer(){
   let zl = Math.floor(map.getZoom());
-  if (zl===3){
+  if (zl===2 || zl ===3){
     hideLayers();
     map.setLayoutProperty("zoom"+zl, 'visibility', 'visible');
   }
@@ -49,13 +51,13 @@ let app = Vue.createApp({
       // addData("presumptive_mapdata", data['c'], 'dodgerblue');
       addData("known_mapdata", data['b'], 'red');
       // addData("user_mapdata", data['a'], 'purple');
-      fetch("/newData")
-      .then(function(response) {
-      return response.json();
-      })
-      .then(function(data) {
-        addDataPoly("new", data['zoom2'], 'red');
-      });
+      // fetch("/newData")
+      // .then(function(response) {
+      // return response.json();
+      // })
+      // .then(function(data) {
+      //   addDataPoly("new", data['zoom2'], 'red');
+      // });
     });
 
 
@@ -76,20 +78,19 @@ let app = Vue.createApp({
 
     newMap(){
       hideLayers();
-      if (this.layersIDs.length == 3){
+      if (this.layersIDs.length == 1){
         fetch("/newData")
         .then(function(response) {
         return response.json();
         })
         .then(function(data) {
-          addDataPoly("new", data['zoom2'], 'red');
+          addDataPoly("zoom2", data['zoom2'], 'red');
+          addDataPoly("zoom3", data['zoom3'], 'red');
           // addData("zoom4", data['zoom4'], 'gold');
           // addData("zoom5", data['zoom5'], 'green');
         });
       }
-      else{
-        map.setLayoutProperty("new", 'visibility', 'visible');
-      }
+
       this.isDisabled = true;
     },
 
