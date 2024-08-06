@@ -14,16 +14,27 @@ function onMapZoom(e) {
   let zl = Math.floor(map.getZoom());
   console.log(map.getZoom())
   app.zl = 'ZoomLevel : '+ zl;
-  showZoomLayer()
+  showZoomLayer();
 }
 
-
+function addZoomLayers(){
+  fetch("/newData")
+  .then(function(response) {
+  return response.json();
+  })
+  .then(function(data) {
+    addDataPoly("zoom2", data['zoom2'], 'red');
+    addDataPoly("zoom3", data['zoom3'], 'red');
+    addDataPoly("zoom4", data['zoom4'], 'red');
+  });
+}
 
 function showZoomLayer(){
   let zl = Math.floor(map.getZoom());
-  if (zl===2 || zl ===3){
+  let layerName = "zoom"+zl;
+  if (typeof map.getLayer(layerName) !== 'undefined'){
     hideLayers();
-    map.setLayoutProperty("zoom"+zl, 'visibility', 'visible');
+    map.setLayoutProperty(layerName, 'visibility', 'visible');
   }
   else{
     hideLayers();
@@ -50,6 +61,7 @@ let app = Vue.createApp({
     .then(function(data) {
       // addData("presumptive_mapdata", data['c'], 'dodgerblue');
       addData("known_mapdata", data['b'], 'red');
+      addZoomLayers();
       // addData("user_mapdata", data['a'], 'purple');
       // fetch("/newData")
       // .then(function(response) {
@@ -59,9 +71,6 @@ let app = Vue.createApp({
       //   addDataPoly("new", data['zoom2'], 'red');
       // });
     });
-
-
-
   },
 
   methods: {
@@ -77,30 +86,28 @@ let app = Vue.createApp({
     },
 
     newMap(){
-      hideLayers();
-      if (this.layersIDs.length == 1){
-        fetch("/newData")
-        .then(function(response) {
-        return response.json();
-        })
-        .then(function(data) {
-          addDataPoly("zoom2", data['zoom2'], 'red');
-          addDataPoly("zoom3", data['zoom3'], 'red');
-          // addData("zoom4", data['zoom4'], 'gold');
-          // addData("zoom5", data['zoom5'], 'green');
-        });
-      }
-
-      this.isDisabled = true;
+      // hideLayers();
+      // if (this.layersIDs.length == 1){
+      //   fetch("/newData")
+      //   .then(function(response) {
+      //   return response.json();
+      //   })
+      //   .then(function(data) {
+      //     addDataPoly("zoom2", data['zoom2'], 'red');
+      //     addDataPoly("zoom3", data['zoom3'], 'red');
+      //     // addData("zoom4", data['zoom4'], 'gold');
+      //     // addData("zoom5", data['zoom5'], 'green');
+      //   });
+      // }
+      // this.isDisabled = true;
     },
 
     showInitMap(){
-      let init = ["known_mapdata", "user_mapdata", "presumptive_mapdata"];
+      let init = ["known_mapdata"];
       hideLayers();
       init.map(layer => {
         map.setLayoutProperty(layer, 'visibility', 'visible');
       });
-
       this.isDisabled = false;
     }
   },
@@ -139,7 +146,6 @@ function addDataPoly(name, jsonData, color){
     paint: {
       'fill-color': color,
       'fill-opacity': 0.8,
-      // "fill-outline-color": "black"
     }
   });
   app.layersIDs.push(name);
@@ -148,7 +154,13 @@ function addDataPoly(name, jsonData, color){
 function hideLayers(){
   if (app.layersIDs) {
     app.layersIDs.map(id => {
-      map.setLayoutProperty(id, 'visibility', 'none');
+      if (id === 'known_mapdata'){
+
+      }
+      else{
+        map.setLayoutProperty(id, 'visibility', 'none');
+      }
+
     });
   }
 };

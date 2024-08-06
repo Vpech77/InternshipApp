@@ -92,51 +92,7 @@ def get_crs(country):
         crs = 2158
     return crs
 
-def apply_algo(country, dicoBounds, category, algoParams, algoName="LabelGrid"):
-    if dicoBounds:
-        puntos = select_puntos_region(dicoBounds, country, category)
-    else:
-        puntos = select_puntos(country, category)
-    gdf = sql_to_gdf(puntos)
-    result = gdf
-
-    if algoName == "LabelGrid":
-        width = float(algoParams.get('width', 0.5))
-        mode = algoParams.get('mode', 'aggregation')
-        grid, result = point_label_grid(gdf, width, width, "hexagonal", mode)
-    
-    if algoName == "K-means":
-        shrink_ratio = float(algoParams.get('shrink_ratio', 0.25))
-        result = point_kmeans(gdf, shrink_ratio)
-    
-    if algoName == "Initial Point":
-        pass
-    
-    if algoName == "Quadtree":
-        typ = algoParams.get('type', 'selection')
-        depth = int(algoParams.get('depth', 2))
-        crs = get_crs(country)
-
-        if typ == 'selection' and category == "known_mapdata":
-            result = point_quadtree_selection(gdf, crs, depth)
-        
-        if typ == 'simplification':
-            result = point_quadtree_simplification(gdf, crs, depth)
-            
-        if typ == 'aggregation':
-            result = point_quadtree_aggregation(gdf, crs, depth)
-            
-    if algoName == "Delaunay":
-        minlength = float(algoParams.get('minlength', 2.0))
-        result = point_delaunay(gdf, minlength)
-
-    if algoName == "Swing":
-        arm = float(algoParams.get('arm', 8))
-        result = point_swing(gdf, arm)
-
-    return gdf_to_json(result)
-
-def apply_algo_grid(country, dicoBounds, category, algoParams, algoName="LabelGrid"):
+def apply_algo_grid(country, dicoBounds, category, algoParams, algoName):
     if dicoBounds:
         puntos = select_puntos_region(dicoBounds, country, category)
     else:
@@ -148,7 +104,7 @@ def apply_algo_grid(country, dicoBounds, category, algoParams, algoName="LabelGr
     if algoName == "LabelGrid":
         width = float(algoParams.get('width', 0.5))
         mode = algoParams.get('mode', 'aggregation')
-        grid, result = point_label_grid(gdf, width, width, "hexagonal", mode)
+        grid2, result = point_label_grid(gdf, width, width, "hexagonal", mode)
     
     if algoName == "K-means":
         shrink_ratio = float(algoParams.get('shrink_ratio', 0.25))
@@ -163,13 +119,13 @@ def apply_algo_grid(country, dicoBounds, category, algoParams, algoName="LabelGr
         crs = get_crs(country)
 
         if typ == 'selection' and category == "known_mapdata":
-            result, grid = point_quadtree_selection(gdf, crs, depth)
+            result, grid2 = point_quadtree_selection(gdf, crs, depth)
         
         if typ == 'simplification':
-            result, grid = point_quadtree_simplification(gdf, crs, depth)
+            result, grid2 = point_quadtree_simplification(gdf, crs, depth)
             
         if typ == 'aggregation':
-            result, grid = point_quadtree_aggregation(gdf, crs, depth)
+            result, grid2 = point_quadtree_aggregation(gdf, crs, depth)
             
     if algoName == "Delaunay":
         minlength = float(algoParams.get('minlength', 2.0))

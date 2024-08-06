@@ -71,7 +71,10 @@ def point_quadtree_aggregation(gdf, epsg, depth):
     output, qtree = reduce_points_quadtree(gdf.to_crs(epsg), depth, 'aggregation')
     p = [pt[0] for pt in output]
     radius = [pt[2] for pt in output]
-    pix = [(40*rad)/max(radius) for rad in radius]
+    pixBrut = [(40*rad)/max(radius) for rad in radius]
+    pix = [x if x>5 else x+3 for x in pixBrut]
+    print("----------------------------------------------------------------------")
+    print(pix)
     df = pd.DataFrame(pix, columns=['radius'])
     grid = []
     qtree.setGrid(grid, depth)
