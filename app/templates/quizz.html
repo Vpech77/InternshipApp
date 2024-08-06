@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css' />
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/visu.css') }}">
+
+    <title>Libre map</title>
+</head>
+
+
+<body>
+
+    <div id="app">
+
+        <div id="zoom">
+            <h2 v-text='zl'></h2>
+        </div>
+
+        <div id="menu">
+
+            <h3>Show Layers</h3>
+        
+            <div class="form-check form-check-inline">
+                <input v-model="categorySelected"  class="form-check-input" type="checkbox" id="check1" value="known_mapdata" @change="showCategoryLayer" :disabled="isDisabled">
+                <label class="form-check-label" for="check1">Known</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input v-model="categorySelected"  class="form-check-input" type="checkbox" id="check2" value="user_mapdata" @change="showCategoryLayer" :disabled="isDisabled">
+                <label class="form-check-label" for="check2">User</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input v-model="categorySelected"  class="form-check-input" type="checkbox" id="check3" value="presumptive_mapdata" @change="showCategoryLayer" :disabled="isDisabled">
+                <label class="form-check-label" for="check3">Presumptive</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="map"></div>
+    <script src='https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js'></script>
+
+    <script src="{{ url_for('static', filename='./js/quizz.js') }}"></script>
+</body>
+</html>

@@ -20,6 +20,10 @@ def map():
 def visu():
     return render_template("visu.html")
 
+@app.route("/quizz")
+def quizz():
+    return render_template("quizz.html")
+
 @app.route("/data")
 def load_all():
     dico = {"a":load_geojson("user_all.geojson"), 
