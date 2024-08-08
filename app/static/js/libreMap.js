@@ -2,8 +2,8 @@ const map = new maplibregl.Map({
     container: 'map',
     style:
         'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
-    center: [13, 50],
-    zoom: 4,
+    center: [2,48],
+    zoom: 5,
     minZoom:2
 });
 
@@ -92,8 +92,9 @@ let app = Vue.createApp({
               map.removeLayer('grid').removeSource('grid');
               this.layersIDs = this.layersIDs.filter(e => e !== 'grid');
             };
-            addData("new", resultat['new'], 'gold');
+
             addDataPoly("grid", resultat['grid'], 'green');
+            addData("new", resultat['new'], 'gold');
             this.isDisabled = true;
             spin.style.display = "none";
 
@@ -237,7 +238,7 @@ function addData(name, jsonData, color){
       paint: {
         "circle-color": color,
         "circle-radius": ['coalesce',['get', 'radius'], 2],
-        "circle-stroke-width": 1,
+        "circle-stroke-width": 0.6,
         "circle-stroke-color": "black",
       }
     });
@@ -256,7 +257,7 @@ function addDataPoly(name, jsonData, color){
     source: name,
     paint: {
       'fill-color': color,
-      'fill-opacity': 0.2,
+      'fill-opacity': 0.4,
       "fill-outline-color": "black"
     }
   });

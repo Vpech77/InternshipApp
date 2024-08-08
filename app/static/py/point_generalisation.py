@@ -34,6 +34,7 @@ def point_label_grid(puntos, width, length, typ='square', mode='selection'):
         aggreg = [(geom, (width*len(cell))) for geom, cell in zip(grid.centroid, lst_all_value) if not cell.empty]
         df = pd.DataFrame(aggreg, columns=["geometry", "radius"])
         df['radius'] = [(40*rad)/max(df['radius']) for rad in df['radius']]
+        df['radius'] = [x if x>5 else x+3 for x in df['radius']]
         
         point_results = gpd.GeoDataFrame(df['radius'], geometry=df["geometry"])
     return grid, point_results
@@ -73,8 +74,6 @@ def point_quadtree_aggregation(gdf, epsg, depth):
     radius = [pt[2] for pt in output]
     pixBrut = [(40*rad)/max(radius) for rad in radius]
     pix = [x if x>5 else x+3 for x in pixBrut]
-    print("----------------------------------------------------------------------")
-    print(pix)
     df = pd.DataFrame(pix, columns=['radius'])
     grid = []
     qtree.setGrid(grid, depth)

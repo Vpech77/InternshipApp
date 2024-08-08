@@ -88,6 +88,8 @@ def get_crs(country):
         crs = 2188
     if country == "Iceland":
         crs = 9947
+    if country == "Belgium":
+        crs = 31370
     if country == "Ireland" or country == "U.K. of Great Britain and Northern Ireland":
         crs = 2158
     return crs
@@ -104,7 +106,7 @@ def apply_algo_grid(country, dicoBounds, category, algoParams, algoName):
     if algoName == "LabelGrid":
         width = float(algoParams.get('width', 0.5))
         mode = algoParams.get('mode', 'aggregation')
-        grid2, result = point_label_grid(gdf, width, width, "hexagonal", mode)
+        grid, result = point_label_grid(gdf, width, width, "hexagonal", mode)
     
     if algoName == "K-means":
         shrink_ratio = float(algoParams.get('shrink_ratio', 0.25))
@@ -125,7 +127,7 @@ def apply_algo_grid(country, dicoBounds, category, algoParams, algoName):
             result, grid2 = point_quadtree_simplification(gdf, crs, depth)
             
         if typ == 'aggregation':
-            result, grid2 = point_quadtree_aggregation(gdf, crs, depth)
+            result, grid = point_quadtree_aggregation(gdf, crs, depth)
             
     if algoName == "Delaunay":
         minlength = float(algoParams.get('minlength', 2.0))
