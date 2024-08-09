@@ -35,7 +35,10 @@ def load_all():
 def load_new():
     dico = {"zoom2":load_geojson("newMap/zoom2.geojson"),
             "zoom3":load_geojson("newMap/zoom3.geojson"), 
-            "zoom4":load_geojson("newMap/zoom4.geojson")}
+            "zoom4":load_geojson("newMap/zoom4.geojson"),
+            "zoom5":load_geojson("newMap/zoom5.geojson"),
+            "zoom6":load_geojson("newMap/zoom6.geojson")
+            }
     return dico
 
 @app.route("/pays", methods=["POST"])

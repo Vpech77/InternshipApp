@@ -1,9 +1,9 @@
 
-html, body, #map { height: 620px; }
+html, body, #map { height: 630px; }
 body { 
     display: grid; 
     grid-template-columns: 300px 1fr;
-    grid-template-rows: 50px 620px;
+    grid-template-rows: 50px 630px;
 }
 
 #menu {

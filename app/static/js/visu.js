@@ -26,6 +26,8 @@ function addZoomLayers(){
     addDataPoly("zoom2", data['zoom2'], 'red');
     addDataPoly("zoom3", data['zoom3'], 'red');
     addDataPoly("zoom4", data['zoom4'], 'red');
+    addData("zoom5", data['zoom5'], 'red');
+    addData("zoom6", data['zoom6'], 'red');
   });
 }
 

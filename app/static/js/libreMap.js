@@ -3,7 +3,7 @@ const map = new maplibregl.Map({
     style:
         'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
     center: [2,48],
-    zoom: 5,
+    zoom: 6,
     minZoom:2
 });
 
@@ -43,7 +43,7 @@ let app = Vue.createApp({
       dicoBounds: null,
       selection: false, // v-for apply algo
       isDisabled: false, // disable display of category layer
-      paramAlgos:{'LabelGrid':{'width':0.2, 'mode':'aggregation'},
+      paramAlgos:{'LabelGrid':{'width':0.5, 'mode':'aggregation'},
                   'Swing':{'arm':8}, 
                   'Quadtree':{'type':'aggregation', 'depth':2},
                   'Delaunay':{'minlength':2},
@@ -107,7 +107,7 @@ let app = Vue.createApp({
       const file = new Blob([jsonData], {type: 'application/geojson'});
       const a = document.createElement('a');
             a.href = URL.createObjectURL(file);
-            a.download = this.countryName+".geojson";
+            a.download = this.countryName+"_"+this.algoSelected+".geojson";
             a.click();
     },
 
@@ -180,8 +180,12 @@ let app = Vue.createApp({
         };
         if (layer == "new"){
           map.setLayoutProperty("new", 'visibility', 'visible');
+          // map.setLayoutProperty("grid", 'visibility', 'visible');
+        };
+        if (layer == "grid"){
           map.setLayoutProperty("grid", 'visibility', 'visible');
         };
+
       });
     },
 
