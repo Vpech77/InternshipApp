@@ -3,7 +3,7 @@ const map = new maplibregl.Map({
     style:
         'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
     center: [2,48],
-    zoom: 6,
+    zoom: 8,
     minZoom:2
 });
 
@@ -22,12 +22,12 @@ function onMapClick(e) {
 
   // console.log("MAP BOUNDS : ", topRight, bottomLeft);
   // console.log(e.lngLat)
-  console.log(app.dicoBounds);
+
 }
+
 
 function onMapZoom(e) {
     monElement.innerHTML = Math.floor(map.getZoom()*100)/100;
-
 };
 
 let app = Vue.createApp({
@@ -45,7 +45,7 @@ let app = Vue.createApp({
       isDisabled: false, // disable display of category layer
       paramAlgos:{'LabelGrid':{'width':0.5, 'mode':'aggregation'},
                   'Swing':{'arm':8}, 
-                  'Quadtree':{'type':'aggregation', 'depth':2},
+                  'Quadtree':{'depth':2,'type':'aggregation'},
                   'Delaunay':{'minlength':2},
                   'K-means':{'shrink_ratio':0.25},
                   'Initial Point':""
@@ -92,7 +92,6 @@ let app = Vue.createApp({
               map.removeLayer('grid').removeSource('grid');
               this.layersIDs = this.layersIDs.filter(e => e !== 'grid');
             };
-
             addDataPoly("grid", resultat['grid'], 'green');
             addData("new", resultat['new'], 'gold');
             this.isDisabled = true;
@@ -107,7 +106,10 @@ let app = Vue.createApp({
       const file = new Blob([jsonData], {type: 'application/geojson'});
       const a = document.createElement('a');
             a.href = URL.createObjectURL(file);
-            a.download = this.countryName+"_"+this.algoSelected+".geojson";
+            let dico = app.paramAlgos[app.algoSelected];
+            const key = Object.keys(dico)[0];
+            const val = dico[key];
+            a.download = this.countryName+"_"+this.algoSelected+"_"+key+val+".geojson";
             a.click();
     },
 
@@ -131,7 +133,6 @@ let app = Vue.createApp({
 
     puntosRegions(){
       this.algoSelected='';
-
       const bounds = map.getBounds()
       this.dicoBounds = {'topRight':bounds.getNorthEast(), 'bottomLeft':bounds.getSouthWest()};
       let donnees = new FormData();
@@ -180,7 +181,6 @@ let app = Vue.createApp({
         };
         if (layer == "new"){
           map.setLayoutProperty("new", 'visibility', 'visible');
-          // map.setLayoutProperty("grid", 'visibility', 'visible');
         };
         if (layer == "grid"){
           map.setLayoutProperty("grid", 'visibility', 'visible');

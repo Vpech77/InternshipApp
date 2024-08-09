@@ -11,6 +11,7 @@ map.addControl(new maplibregl.NavigationControl());
 map.on('zoom', onMapZoom);
 
 function onMapZoom(e) {
+
   let zl = Math.floor(map.getZoom());
   console.log(map.getZoom())
   app.zl = 'ZoomLevel : '+ zl;
@@ -23,11 +24,15 @@ function addZoomLayers(){
   return response.json();
   })
   .then(function(data) {
-    addDataPoly("zoom2", data['zoom2'], 'red');
-    addDataPoly("zoom3", data['zoom3'], 'red');
-    addDataPoly("zoom4", data['zoom4'], 'red');
-    addData("zoom5", data['zoom5'], 'red');
-    addData("zoom6", data['zoom6'], 'red');
+    let zoomPoly = 4;
+    for (let i=2; i<zoomPoly+1; i++){
+      addDataPoly("zoom"+i, data['zoom'+i], 'red');
+    }
+    let zoomPuntos = 9;
+    for (let i=zoomPoly+1; i<zoomPuntos+1; i++){
+      addData("zoom"+i, data['zoom'+i], 'red');
+    }
+    hideLayers();
   });
 }
 
