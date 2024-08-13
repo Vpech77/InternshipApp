@@ -18,27 +18,30 @@
 
     <div id="app">
 
-        <div id="zoom">
-            <h2 v-text='zl'></h2>
+        <h1 v-text="count" class="m-2">{{count}}</h1>
+
+        <div v-text="question" class="m-2"></div>
+
+        <div v-if="this.data !== null">
+            <input v-if="isInputOption" class="form-control w-75 m-2" type="text" v-model="inputValue"/>
+            <div v-else>
+                <div v-for="(option, index) in this.tab.split(', ')" :key="index">
+                    <input type="checkbox" class="form-check-input m-2" :id="'checkbox-' + index"  :value="option" v-model="selectedOptions">
+                    <label class="form-check-label" :for="'checkbox-' + index" v-text="option">{{option}}</label>
+                
+                </div>
+            </div>
         </div>
 
-        <div id="menu">
+        <div v-else>Rien</div>
 
-            <h3>Show Layers</h3>
-        
-            <div class="form-check form-check-inline">
-                <input v-model="categorySelected"  class="form-check-input" type="checkbox" id="check1" value="known_mapdata" @change="showCategoryLayer" :disabled="isDisabled">
-                <label class="form-check-label" for="check1">Known</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input v-model="categorySelected"  class="form-check-input" type="checkbox" id="check2" value="user_mapdata" @change="showCategoryLayer" :disabled="isDisabled">
-                <label class="form-check-label" for="check2">User</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input v-model="categorySelected"  class="form-check-input" type="checkbox" id="check3" value="presumptive_mapdata" @change="showCategoryLayer" :disabled="isDisabled">
-                <label class="form-check-label" for="check3">Presumptive</label>
-            </div>
+
+
+        <div class="d-grid gap-2 d-md-block m-2">
+            <button class="btn btn-secondary btn-sm m-2" @click="prev">Prev</button>   
+            <button class="btn btn-success btn-sm" @click="suiv">Next</button>  
         </div>
+
 
     </div>
 

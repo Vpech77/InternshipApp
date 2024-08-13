@@ -35,7 +35,7 @@
     
                             <option v-for="name in lst" :key="name" v-text="name" :value="name">
                                 {{ name }}
-                            </option>
+                            </option>  
                         </select>
 
                     </div>
@@ -83,7 +83,6 @@
 
                     <div>
                         <h3>Parameters</h3>
-
                         <div v-for="(val, key) in paramAlgos[algoSelected]" :key="key">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="param" v-text="key">{{key}}</span>

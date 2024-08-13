@@ -31,6 +31,10 @@ def load_all():
             "c":load_geojson("presumptive_all.geojson")}
     return dico
 
+@app.route("/dataQuizz")
+def load_data():
+    return load_geojson("quiz.json")
+
 @app.route("/newData")
 def load_new():
     zoomMax = 9

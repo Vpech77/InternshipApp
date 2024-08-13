@@ -3,7 +3,7 @@ const map = new maplibregl.Map({
     style:
         'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
     center: [2,48],
-    zoom: 8,
+    zoom: 2,
     minZoom:2
 });
 
@@ -115,13 +115,14 @@ let app = Vue.createApp({
 
     showAllPuntos() {
       this.clearData();
+      clearLayers();
       spin.style.display = "block";
       fetch("/data")
       .then(function(response) {
       return response.json();
       })
       .then(function(data) {
-        clearLayers();
+        
         addData("presumptive_mapdata", data['c'], 'dodgerblue');
         addData("known_mapdata", data['b'], 'red');
         addData("user_mapdata", data['a'], 'purple');
