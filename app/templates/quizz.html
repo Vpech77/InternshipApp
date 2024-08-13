@@ -18,7 +18,7 @@
 
     <div id="app">
 
-        <h1 v-text="count" class="m-2">{{count}}</h1>
+        <h2 class="m-2"><span class="badge text-bg-success" v-text="txt" >{{txt}}</span></h2>
 
         <div v-text="question" class="m-2"></div>
 
@@ -35,11 +35,11 @@
 
         <div v-else>Rien</div>
 
-
-
         <div class="d-grid gap-2 d-md-block m-2">
             <button class="btn btn-secondary btn-sm m-2" @click="prev">Prev</button>   
-            <button class="btn btn-success btn-sm" @click="suiv">Next</button>  
+            <button class="btn btn-success btn-sm" @click="suiv">Next</button> 
+            <button type="button" class="btn btn-warning btn-sm  m-2"  @click="download" v-if="this.count==3">Download answers</button>
+
         </div>
 
 

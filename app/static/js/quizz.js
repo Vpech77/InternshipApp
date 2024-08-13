@@ -21,9 +21,10 @@ let app = Vue.createApp({
     return {
       count:-1,
       data:null,
-      question:"Rien",
+      question:"",
       selectedOptions:[],
       tab:null,
+      answers:[],
     };
   },
 
@@ -42,9 +43,20 @@ let app = Vue.createApp({
       }
       return this.tab === null;
     },
+    txt(){
+      return "Question " + this.count;
+    }
   },
 
   methods: {
+    download() {
+      let dico = dicoToFormatCSV({a:1, b:2});
+      const file = new Blob([dico], {type: 'text/csv;charset=utf-8,'});
+      const a = document.createElement('a');
+            a.href = URL.createObjectURL(file);
+            a.download = "rep.csv";
+            a.click();
+    },
 
     suiv(){
       let maxi = 3;
@@ -68,3 +80,13 @@ let app = Vue.createApp({
 
 
 }).mount('#app');
+
+
+function dicoToFormatCSV(dico){
+  const csvRows = []
+  const headers = Object.keys(dico)
+  csvRows.push(headers.join(';'));
+  const values = Object.values(dico).join(';');
+  csvRows.push(values)
+  return csvRows.join('\n');
+}
