@@ -18,29 +18,37 @@
 
     <div id="app">
 
-        <h2 class="m-2"><span class="badge text-bg-success" v-text="txt" >{{txt}}</span></h2>
+        <div v-if="!IsStart">
+            <h2><span class="badge text-bg-success m-3">Quizz des polluants</span></h2>
+            <h4 class="m-4">Voici le quizz des polluants !</h4>
+            <button type="button" class="btn btn-primary m-3" @click="start">Start quizz</button>
+            <button type="button" class="btn btn-warning btn-sm  m-2"  @click="download" v-if="Object.keys(this.dicoAnswers).length>0
+">Download answers</button>
+        </div>
 
-        <div v-text="question" class="m-2"></div>
+        <div v-else>
+            <h2 class="m-2"><span class="badge text-bg-success" v-text="txt" >{{txt}}</span></h2>
 
-        <div v-if="this.data !== null">
-            <input v-if="isInputOption" class="form-control w-75 m-2" type="text" v-model="inputValue"/>
-            <div v-else>
-                <div v-for="(option, index) in this.tab.split(', ')" :key="index">
-                    <input type="checkbox" class="form-check-input m-2" :id="'checkbox-' + index"  :value="option" v-model="selectedOptions">
-                    <label class="form-check-label" :for="'checkbox-' + index" v-text="option">{{option}}</label>
-                
+            <div v-text="question" class="m-2"></div>
+            <div v-text="time" class="m-2"></div>
+    
+            <div v-if="this.data !== null">
+                <input v-if="isInputOption" class="form-control w-75 m-2" type="text" v-model="answer"/>
+                <div v-else>
+                    <div v-for="(option, index) in this.tab.split(', ')" :key="index">
+                        <input type="checkbox" class="form-check-input m-2" :id="'checkbox-' + index"  :value="option" v-model="selectedOptions">
+                        <label class="form-check-label" :for="'checkbox-' + index" v-text="option">{{option}}</label>
+                    </div>
                 </div>
-            </div>
+    
+                <div class="d-grid gap-2 d-md-block m-2"> 
+                    <button class="btn btn-success btn-sm" @click="suiv">Next</button> 
+                </div>
         </div>
 
-        <div v-else>Rien</div>
-
-        <div class="d-grid gap-2 d-md-block m-2">
-            <button class="btn btn-secondary btn-sm m-2" @click="prev">Prev</button>   
-            <button class="btn btn-success btn-sm" @click="suiv">Next</button> 
-            <button type="button" class="btn btn-warning btn-sm  m-2"  @click="download" v-if="this.count==3">Download answers</button>
-
         </div>
+
+
 
 
     </div>

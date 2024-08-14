@@ -11,20 +11,22 @@ map.addControl(new maplibregl.NavigationControl());
 map.on('zoom', onMapZoom);
 
 function onMapZoom(e) {
-  let zl = Math.floor(map.getZoom()*100)/100;
-  console.log(map.getZoom())
+ 
 }
 
 
 let app = Vue.createApp({
   data() {
     return {
-      count:-1,
+      IsStart:false,
+      count:0,
       data:null,
+      tab:null, // data.options
       question:"",
       selectedOptions:[],
-      tab:null,
-      answers:[],
+      answer:"",
+      dicoAnswers:{},
+      time:null,
     };
   },
 
@@ -49,8 +51,14 @@ let app = Vue.createApp({
   },
 
   methods: {
+    start(){
+      this.IsStart = true;
+      this.question = this.data.question[this.count];
+      timer(this.data.time[this.count]);
+    },
+
     download() {
-      let dico = dicoToFormatCSV({a:1, b:2});
+      let dico = dicoToFormatCSV(this.dicoAnswers);
       const file = new Blob([dico], {type: 'text/csv;charset=utf-8,'});
       const a = document.createElement('a');
             a.href = URL.createObjectURL(file);
@@ -59,22 +67,35 @@ let app = Vue.createApp({
     },
 
     suiv(){
+      this.addAnswer();
       let maxi = 3;
       this.count++;
       if(this.count>maxi){
-        this.count = maxi;
+        this.IsStart = false;
+        this.count=0;
       }
-      this.question = this.data.question[this.count];
-      console.log(this.selectedOptions)
+      this.maj();
     },
 
-    prev(){
-      this.count--;
-      if (this.count<0){
-        this.count = 0;
+    addAnswer(){
+      let [min, sec] = this.time.split(":");
+      let secondes = parseInt(sec, 10);
+      let duration = this.data.time[this.count] - secondes
+
+      if (this.data.options[this.count] === null){
+        this.dicoAnswers[this.count] = JSON.stringify({rep:this.answer, temps:duration});
       }
-      this.question = this.data.question[this.count];
+      else{
+        this.dicoAnswers[this.count] = JSON.stringify({rep:this.selectedOptions, temps:duration});
+      }
     },
+
+    maj(){
+      timer(this.data.time[this.count]);
+      this.question = this.data.question[this.count];
+      this.answer = "";
+      this.selectedOptions = [];
+    }
 
   },
 
@@ -89,4 +110,20 @@ function dicoToFormatCSV(dico){
   const values = Object.values(dico).join(';');
   csvRows.push(values)
   return csvRows.join('\n');
+}
+
+let minuteur;
+
+function timer(temps){
+  app.time = "";
+  clearInterval(minuteur);
+  minuteur = setInterval(() => {
+    let minutes = parseInt(temps / 60, 10)
+    let secondes = parseInt(temps % 60, 10)
+  
+    minutes = minutes < 10 ? "0" + minutes : minutes
+    secondes = secondes < 10 ? "0" + secondes : secondes
+    app.time = `${minutes}:${secondes}`
+    temps = temps <= 0 ? 0 : temps - 1
+  }, 1000)
 }
