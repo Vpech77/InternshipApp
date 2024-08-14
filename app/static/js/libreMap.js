@@ -262,7 +262,7 @@ function addDataPoly(name, jsonData, color){
     source: name,
     paint: {
       'fill-color': color,
-      'fill-opacity': 0.4,
+      'fill-opacity': 0.2,
       "fill-outline-color": "black"
     }
   });

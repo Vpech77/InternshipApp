@@ -38,6 +38,20 @@ let app = Vue.createApp({
     });
   },
 
+  mounted(){
+    fetch("/data")
+    .then(function(response) {
+    return response.json();
+    })
+    .then(function(data) {
+      
+      addData("presumptive_mapdata", data['c'], 'dodgerblue');
+      addData("known_mapdata", data['b'], 'red');
+      addData("user_mapdata", data['a'], 'purple');
+
+    })
+  },
+
   computed: {
     isInputOption() {
       if (this.data.options[this.count] !== undefined){
@@ -127,3 +141,22 @@ function timer(temps){
     temps = temps <= 0 ? 0 : temps - 1
   }, 1000)
 }
+
+function addData(name, jsonData, color){
+  map.addSource(name, {
+    type: 'geojson',
+    data: jsonData
+  });
+
+  map.addLayer({
+    id: name,
+    type: "circle",
+    source: name,
+    paint: {
+      "circle-color": color,
+      "circle-radius": ['coalesce',['get', 'radius'], 2],
+      "circle-stroke-width": 1,
+      "circle-stroke-color": "black",
+    }
+  });
+};

@@ -32,6 +32,8 @@ function addZoomLayers(){
     for (let i=zoomPoly+1; i<zoomPuntos+1; i++){
       addData("zoom"+i, data['zoom'+i], 'red');
     }
+    addData("zoom3bis", data['zoom3bis'], 'red')
+    addData("zoom4bis", data['zoom4bis'], 'red')
     hideLayers();
   });
 }
@@ -42,6 +44,12 @@ function showZoomLayer(){
   if (typeof map.getLayer(layerName) !== 'undefined'){
     hideLayers();
     map.setLayoutProperty(layerName, 'visibility', 'visible');
+    if (zl===3){
+      map.setLayoutProperty("zoom3bis", 'visibility', 'visible');
+    }
+    if (zl===4){
+      map.setLayoutProperty("zoom4bis", 'visibility', 'visible');
+    }
   }
   else{
     hideLayers();

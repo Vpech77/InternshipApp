@@ -39,6 +39,8 @@ def load_data():
 def load_new():
     zoomMax = 9
     dico = {"zoom"+str(i): load_geojson("./newMap/zoom"+str(i)+".geojson") for i in range(2,zoomMax+1)}
+    dico["zoom3bis"] =  load_geojson("./newMap/zoom3bis.geojson")
+    dico["zoom4bis"] =  load_geojson("./newMap/zoom4bis.geojson")
     return dico
 
 @app.route("/pays", methods=["POST"])
