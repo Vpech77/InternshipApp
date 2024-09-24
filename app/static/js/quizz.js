@@ -51,6 +51,14 @@ let app = Vue.createApp({
 
     })
   },
+  watch: {
+    time(val){
+      if (val === '00:00'){
+        this.suiv();
+      }
+    }
+
+  },
 
   computed: {
     isInputOption() {

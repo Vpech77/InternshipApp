@@ -7,7 +7,7 @@ Created on Mon Jul 15 11:18:59 2024
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
-import cartagen4py as c4
+import cartagen as c4
 from static.py.algos import *
 
 ################################### LABEL GRID ################################
@@ -42,9 +42,8 @@ def point_label_grid(puntos, width, length, typ='square', mode='selection'):
 ################################### K-MEANS ################################
 
 def point_kmeans(gdf, shrink_ratio=0.1):
-    lst_pt = [Point(pt.x, pt.y) for pt in gdf['geometry']]
-    simplified = c4.kmeans_point_set_reduction(lst_pt, shrink_ratio, True)
-    return gpd.GeoDataFrame(geometry=gpd.GeoSeries(simplified))
+    simplified = c4.reduce_kmeans(gdf, shrink_ratio)
+    return simplified
     
 ################################### QUADTREE SELECTION ################################
 

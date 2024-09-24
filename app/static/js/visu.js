@@ -170,7 +170,7 @@ function hideLayers(){
   if (app.layersIDs) {
     app.layersIDs.map(id => {
       if (id === 'known_mapdata'){
-
+        map.setLayoutProperty(id, 'visibility', 'none');
       }
       else{
         map.setLayoutProperty(id, 'visibility', 'none');

@@ -4,7 +4,7 @@ import geopandas as gpd
 from shapely.ops import triangulate, unary_union
 from shapely.geometry import LineString, Polygon, Point, MultiPoint
 from shapely import contains, length
-from cartagen4py.utils.geometry.segment import *
+from cartagen.utils.geometry.segment import *
 import warnings
 warnings.filterwarnings('ignore')
 
