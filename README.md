@@ -32,7 +32,7 @@ The backup was made with PostgreSQL 16, upgrade your postgreSQL version to 16 or
 Run the application 
 
 ```python
-  python InternshipApp/app/app.py
+  python app.py
 ```
 
 Now head over to http://127.0.0.1:5000/, and you should see the application running on your navigator.
