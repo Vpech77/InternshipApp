@@ -6,7 +6,7 @@
 [![MapLibre Badge](https://img.shields.io/badge/MapLibre-396CB2?logo=maplibre&logoColor=fff&style=for-the-badge)](https://maplibre.org/maplibre-gl-js/docs/)
 [![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=fff&style=for-the-badge)](https://www.postgresql.org/)
 
-In this repository, you'll find a Flask-based web app for cartographic generalization that I developed during my internship in the LostInZoom research team. The primary goal of this app is to assist in creating a multi-scale web map, utilizing point generalization algorithms from the Python library, Cartagen.
+In this repository, you'll find a Flask-based web app for cartographic generalization that I developed during my 3-month internship in the LostInZoom research team. The primary goal of this app is to assist in creating a multi-scale web map, utilizing point generalization algorithms from the Python library, Cartagen.
 
 # ⚙️ Installation ⚙️
 
