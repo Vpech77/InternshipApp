@@ -19,14 +19,25 @@ Clone the project
 Next, import the PostgreSQL database into your pgAdmin.
 The backup was made with PostgreSQL 16, upgrade your postgreSQL version to 16 or higher.
 
-## 🛠 Python libraries
+## 🛠 Python libraries - Dependencies 🛠
 
 [![Flask](https://img.shields.io/badge/Flask-v2.2.5-0bacda?logo=flask&logoColor=fff&style=plastic)](https://flask.palletsprojects.com/)
 [![Cartagen](https://img.shields.io/badge/Cartagen-v1.0.0-blue?logo=python&logoColor=white&style=plastic)](https://cartagen.readthedocs.io/en/latest/)
 [![GeoPandas Badge](https://img.shields.io/badge/GeoPandas-v0.14.4-139C5A?logo=geopandas&logoColor=fff&style=plastic)](https://geopandas.org/en/stable/)
 [![psycopg2](https://img.shields.io/badge/psycopg2-v2.9.9-yellow?logo=python&logoColor=white&style=plastic)](https://www.psycopg.org/)
 
-
+```python
+  pip install flask==2.2.5
+```
+```python
+  pip install cartagen==1.0.0
+```
+```python
+  pip install psycopg2==2.9.9
+```
+```python
+  pip install geopandas==0.14.4
+```
 # 🚀 Run 🚀
 
 Run the application 
