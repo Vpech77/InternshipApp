@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import json
 import os
-from connect import *
+from static.py.connect import *
 
 app = Flask(__name__)
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
