@@ -17,7 +17,6 @@ Clone the project
 ```
 
 Next, import the PostgreSQL database into your pgAdmin.
-The backup was made with PostgreSQL 16, upgrade your postgreSQL version to 16 or higher.
 
 ## 🛠 Python libraries - Dependencies 🛠
 
