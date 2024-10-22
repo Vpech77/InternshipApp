@@ -16,20 +16,20 @@ Clone the project
   git clone https://github.com/Vpech77/InternshipApp.git
 ```
 
-Next, import the PostgreSQL database into your pgAdmin.
+Next, restore the postgresql backup all_puntos.sql
+To restore the PostgreSQL backup into your database, ensure you have PostgreSQL version 16 or higher, along with a properly configured PostGIS extension.
 
-## 🛠 Python libraries - Dependencies 🛠
+## 🛠 Requirements 🛠
 
 [![Flask](https://img.shields.io/badge/Flask-v2.2.5-0bacda?logo=flask&logoColor=fff&style=plastic)](https://flask.palletsprojects.com/)
 [![Cartagen](https://img.shields.io/badge/Cartagen-v1.0.0-blue?logo=python&logoColor=white&style=plastic)](https://cartagen.readthedocs.io/en/latest/)
 [![GeoPandas Badge](https://img.shields.io/badge/GeoPandas-v0.14.4-139C5A?logo=geopandas&logoColor=fff&style=plastic)](https://geopandas.org/en/stable/)
 [![psycopg2](https://img.shields.io/badge/psycopg2-v2.9.9-yellow?logo=python&logoColor=white&style=plastic)](https://www.psycopg.org/)
 
+To install all the required Python libraries, run the following command:
+
 ```bash
-  pip install flask==2.2.5
-  pip install cartagen==1.0.0
-  pip install psycopg2==2.9.9
-  pip install geopandas==0.14.4
+pip install -r requirements.txt
 ```
 # 🚀 Run 🚀
 
