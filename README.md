@@ -17,6 +17,7 @@ Clone the project
 ```
 
 Next, restore the postgresql backup all_puntos.sql
+
 To restore the PostgreSQL backup into your database, ensure you have PostgreSQL version 16 or higher, along with a properly configured PostGIS extension.
 
 ## 🛠 Requirements 🛠
