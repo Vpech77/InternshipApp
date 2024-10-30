@@ -22,6 +22,7 @@ To restore the PostgreSQL backup into your database, ensure you have PostgreSQL 
 
 ## 🛠 Requirements 🛠
 
+![Python](https://img.shields.io/badge/python-3.11-blue)
 [![Flask](https://img.shields.io/badge/Flask-v2.2.5-0bacda?logo=flask&logoColor=fff&style=plastic)](https://flask.palletsprojects.com/)
 [![Cartagen](https://img.shields.io/badge/Cartagen-v1.0.0-blue?logo=python&logoColor=white&style=plastic)](https://cartagen.readthedocs.io/en/latest/)
 [![GeoPandas Badge](https://img.shields.io/badge/GeoPandas-v0.14.4-139C5A?logo=geopandas&logoColor=fff&style=plastic)](https://geopandas.org/en/stable/)
