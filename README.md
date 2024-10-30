@@ -16,11 +16,31 @@ Clone the project
   git clone https://github.com/Vpech77/InternshipApp.git
 ```
 
-Next, restore the PostgreSQL backup all_puntos.sql
+## 🐙🐳 Docker-compose 🐳🐙
+
+To install and run easily the app without installing all the dependencies directly on your machine, use Docker!
+
+1. **Ensure Docker compose is installed**: 
+     The easiest way to get Docker Compose is to install Docker Desktop. [Get Docker](https://docs.docker.com/get-docker/)
+   
+2. **Build and start the containers**:
+    ```sh
+    docker compose up
+    ```
+3. **Access the app**:
+    Open your browser and navigate to `http://localhost:5000`.
+
+The app should now be running and accessible. 
+
+## 💻 On your machine 💻
+
+### 💾 Import the PostgreSQL database 💾
+
+Restore the PostgreSQL backup all_puntos.sql
 
 To restore the PostgreSQL backup into your database, ensure you have PostgreSQL version 16 or higher, along with a properly configured PostGIS extension.
 
-## 🛠 Requirements 🛠
+### 🛠 Requirements 🛠
 
 ![Python](https://img.shields.io/badge/python-3.11-blue?style=plastic)
 [![Flask](https://img.shields.io/badge/Flask-v2.2.5-0bacda?logo=flask&logoColor=fff&style=plastic)](https://flask.palletsprojects.com/)
@@ -33,7 +53,7 @@ To install all the required Python libraries, run the following command:
 ```bash
 pip install -r requirements.txt
 ```
-# 🚀 Run 🚀
+### 🚀 Run 🚀
 
 Run the application 
 
