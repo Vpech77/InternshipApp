@@ -13,7 +13,7 @@ In this repository, you'll find a Flask-based web app for cartographic generaliz
 Clone the project
 
 ```bash
-  git clone https://github.com/Vpech77/InternshipApp.git
+  git clone https://github.com/Vpech77/internship-app.git
 ```
 
 ## 🐙🐳 Docker-compose 🐳🐙
